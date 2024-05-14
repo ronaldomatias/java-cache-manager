@@ -16,11 +16,11 @@ public class RedisOperations implements RedisOperationsInterface {
 
 	@SneakyThrows // TODO: Remover sneaky
 	@Override
-	public void set(RedisDTO dto) {
-		client.set(dto.getKey(), new ObjectMapper().writeValueAsString(dto.getValue())); // TODO: Criar um objmapperutil
-		client.expire(dto.getKey(), dto.getTtl());
+	public void set(String key, Object value, Long ttl) {
+		client.set(key, new ObjectMapper().writeValueAsString(value)); // TODO: Criar um objmapperutil
+		client.expire(key, ttl);
 
-		log.info("Set cache: " + dto.getValue());
+		log.info("Set cache: " + value);
 	}
 
 	@Override

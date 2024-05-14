@@ -1,6 +1,7 @@
 package br.com.ronaldomatias.cachemanager.aspect;
 
-import br.com.ronaldomatias.cachemanager.cachemanager.manipulators.BaseManipulator;
+import br.com.ronaldomatias.cachemanager.cachemanager.manipulator.BaseManipulator;
+import br.com.ronaldomatias.cachemanager.cachemanager.manipulator.ManipulatorFactory;
 import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisDTO;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -28,7 +29,7 @@ public class CacheAspect {
 			return proceedingJoinPoint.proceed();
 		}
 
-		return manipulatorFactory.run(new RedisDTO(annotation), proceedingJoinPoint, annotation.annotationType(), methodSignature.getReturnType());
+		return manipulatorFactory.runManipulator(new RedisDTO(annotation), proceedingJoinPoint, annotation.annotationType(), methodSignature.getReturnType());
 	}
 
 }

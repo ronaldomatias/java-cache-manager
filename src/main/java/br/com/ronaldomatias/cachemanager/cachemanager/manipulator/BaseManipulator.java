@@ -1,8 +1,10 @@
-package br.com.ronaldomatias.cachemanager.cachemanager.manipulators;
+package br.com.ronaldomatias.cachemanager.cachemanager.manipulator;
 
 import br.com.ronaldomatias.cachemanager.annotation.Cacheable;
+import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisDTO;
 import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisOperations;
 import lombok.Data;
+import org.aspectj.lang.ProceedingJoinPoint;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -17,5 +19,7 @@ public abstract class BaseManipulator {
 	public BaseManipulator() {
 		this.redisOperations = new RedisOperations();
 	}
+	
+	protected abstract Object run(RedisDTO redisDTO, ProceedingJoinPoint proceedingJoinPoint) throws Throwable;
 
 }
