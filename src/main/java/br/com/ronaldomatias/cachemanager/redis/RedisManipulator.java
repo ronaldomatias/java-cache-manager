@@ -1,30 +1,35 @@
-package br.com.ronaldomatias.cachemanager.aspect;
+package br.com.ronaldomatias.cachemanager.redis;
 
+import br.com.ronaldomatias.cachemanager.config.JedisSingleton;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
-@Component
 @Log4j2
-public class RedisBase implements RedisInterface {
-	@Autowired
-	Jedis client;
+public class RedisManipulator implements RedisManipulatorInterface {
+	private final Jedis client;
+
+	public RedisManipulator() {
+		this.client = JedisSingleton.getInstance();
+	}
 
 	@Override
 	@SneakyThrows
 	public void set(RedisDTO dto) {
 		client.set(dto.getKey(), new ObjectMapper().writeValueAsString(dto.getValue())); // TODO: Criar um objmapperutil
-
 		client.expire(dto.getKey(), dto.getTtl());
-		log.info("Cacheado: " + dto.getValue());
+
+		log.info("Set cache: " + dto.getValue());
 	}
 
 	@Override
 	public String get(String key) {
-		return client.get(key);
+		String get = client.get(key);
+
+		log.info("Get Cache: " + get);
+		return get;
 	}
 
 	@Override

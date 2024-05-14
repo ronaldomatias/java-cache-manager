@@ -1,21 +1,21 @@
-package br.com.ronaldomatias.cachemanager.aspect;
+package br.com.ronaldomatias.cachemanager.cachemanager;
 
-import br.com.ronaldomatias.cachemanager.annotation.Cacheable;
+import br.com.ronaldomatias.cachemanager.cachemanager.annotation.Cacheable;
+import br.com.ronaldomatias.cachemanager.redis.RedisManipulator;
+import br.com.ronaldomatias.cachemanager.redis.RedisDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
 
-@Service
-public class CacheManagerService {
+public class CacheManager {
 	public static final List<Class<? extends Annotation>> allAnnotations = List.of(Cacheable.class);
 
-	private final RedisBase redisBase;
+	private final RedisManipulator redisManipulator;
 
-	public CacheManagerService(RedisBase redisBase) {
-		this.redisBase = redisBase;
+	public CacheManager() {
+		this.redisManipulator = new RedisManipulator();
 	}
 
 	public Object run(RedisDTO redisDTO, ProceedingJoinPoint proceedingJoinPoint, Class<? extends Annotation> aClass, Class<?> returnType) throws Throwable {
@@ -31,17 +31,16 @@ public class CacheManagerService {
 	private Object cacheable(RedisDTO redisDTO, ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		Object response;
 
-		if (redisBase.existsKey(redisDTO.getKey())) {
-			response = redisBase.get(redisDTO.getKey());
+		if (redisManipulator.existsKey(redisDTO.getKey())) {
+			response = redisManipulator.get(redisDTO.getKey());
 		} else {
 			response = proceedingJoinPoint.proceed();
 			redisDTO.setValue(response);
-			redisBase.set(redisDTO);
+			redisManipulator.set(redisDTO);
 		}
 
 		return response;
 	}
-
 
 
 }

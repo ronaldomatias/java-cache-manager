@@ -1,6 +1,7 @@
 package br.com.ronaldomatias.cachemanager.aspect;
 
-import br.com.ronaldomatias.cachemanager.util.ReflectionUtil;
+import br.com.ronaldomatias.cachemanager.cachemanager.CacheManager;
+import br.com.ronaldomatias.cachemanager.redis.RedisDTO;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,27 +11,25 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 
-
-@org.aspectj.lang.annotation.Aspect
 @Log4j2
-@Component
+@org.aspectj.lang.annotation.Aspect
 public class CacheAspect {
-	CacheManagerService cacheManagerService;
+	private final CacheManager cacheManager;
 
-	public CacheAspect(CacheManagerService cacheManagerService) {
-		this.cacheManagerService = cacheManagerService;
+	public CacheAspect() {
+		this.cacheManager = new CacheManager();
 	}
 
 	@Around("execution(* br.com.ronaldomatias.cachemanager.tester.service..*(..)))") // TODO: Como configurar isso dinamicamente ?
 	public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
 
-		Annotation annotation = Arrays.stream(methodSignature.getMethod().getAnnotations()).filter(a -> CacheManagerService.allAnnotations.contains(a.annotationType())).findFirst().orElse(null);
+		Annotation annotation = Arrays.stream(methodSignature.getMethod().getAnnotations()).filter(a -> CacheManager.allAnnotations.contains(a.annotationType())).findFirst().orElse(null);
 		if (annotation == null) {
 			return proceedingJoinPoint.proceed();
 		}
 
-		return cacheManagerService.run(new RedisDTO(annotation), proceedingJoinPoint, annotation.annotationType(), methodSignature.getReturnType());
+		return cacheManager.run(new RedisDTO(annotation), proceedingJoinPoint, annotation.annotationType(), methodSignature.getReturnType());
 	}
 
 }

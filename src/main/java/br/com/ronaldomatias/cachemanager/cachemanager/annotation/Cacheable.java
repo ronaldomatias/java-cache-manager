@@ -1,4 +1,4 @@
-package br.com.ronaldomatias.cachemanager.annotation;
+package br.com.ronaldomatias.cachemanager.cachemanager.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

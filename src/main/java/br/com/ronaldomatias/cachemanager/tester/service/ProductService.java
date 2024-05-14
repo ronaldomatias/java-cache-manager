@@ -1,6 +1,6 @@
 package br.com.ronaldomatias.cachemanager.tester.service;
 
-import br.com.ronaldomatias.cachemanager.annotation.Cacheable;
+import br.com.ronaldomatias.cachemanager.cachemanager.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
