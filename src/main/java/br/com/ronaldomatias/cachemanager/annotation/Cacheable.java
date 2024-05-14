@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Cacheable {
 	String key();
-	String strategy() default "";
 	long ttl();
 	String condition() default "";
 

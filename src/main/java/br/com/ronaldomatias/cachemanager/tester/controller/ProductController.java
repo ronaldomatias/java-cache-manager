@@ -1,5 +1,6 @@
-package br.com.ronaldomatias.cachemanager.tester.product;
+package br.com.ronaldomatias.cachemanager.tester.controller;
 
+import br.com.ronaldomatias.cachemanager.tester.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
