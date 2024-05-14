@@ -1,4 +1,4 @@
-package br.com.ronaldomatias.cachemanager.redis;
+package br.com.ronaldomatias.cachemanager.cachemanager.redis;
 
 import br.com.ronaldomatias.cachemanager.util.ReflectionUtil;
 import lombok.Data;

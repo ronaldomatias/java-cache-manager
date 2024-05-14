@@ -1,22 +1,21 @@
-package br.com.ronaldomatias.cachemanager.redis;
+package br.com.ronaldomatias.cachemanager.cachemanager.redis;
 
 import br.com.ronaldomatias.cachemanager.config.JedisSingleton;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 @Log4j2
-public class RedisManipulator implements RedisManipulatorInterface {
+public class RedisOperations implements RedisOperationsInterface {
 	private final Jedis client;
 
-	public RedisManipulator() {
+	public RedisOperations() {
 		this.client = JedisSingleton.getInstance();
 	}
 
+	@SneakyThrows // TODO: Remover sneaky
 	@Override
-	@SneakyThrows
 	public void set(RedisDTO dto) {
 		client.set(dto.getKey(), new ObjectMapper().writeValueAsString(dto.getValue())); // TODO: Criar um objmapperutil
 		client.expire(dto.getKey(), dto.getTtl());
