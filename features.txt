@@ -1,0 +1,2 @@
+INVALIDATE:
+1. Pode invalidar mais de uma key por vez.

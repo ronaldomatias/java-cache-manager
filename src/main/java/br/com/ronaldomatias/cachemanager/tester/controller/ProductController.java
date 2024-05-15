@@ -21,4 +21,9 @@ public class ProductController {
 		return productService.getCategories();
 	}
 
+	@GetMapping("/makers")
+	public List<String> getMakers() {
+		return productService.getMakers();
+	}
+
 }

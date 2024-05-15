@@ -1,40 +1,48 @@
 package br.com.ronaldomatias.cachemanager.cachemanager.redis;
 
 import br.com.ronaldomatias.cachemanager.config.JedisSingleton;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import br.com.ronaldomatias.cachemanager.util.ObjectMapperUtil;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import redis.clients.jedis.Jedis;
 
 @Log4j2
 public class RedisOperations implements RedisOperationsInterface {
+	// TODO: Remover sneaky
 	private final Jedis client;
 
 	public RedisOperations() {
 		this.client = JedisSingleton.getInstance();
 	}
 
-	@SneakyThrows // TODO: Remover sneaky
+	@SneakyThrows
 	@Override
 	public void set(String key, Object value, Long ttl) {
-		client.set(key, new ObjectMapper().writeValueAsString(value)); // TODO: Criar um objmapperutil
+		client.set(key, ObjectMapperUtil.getMapper().writeValueAsString(value));
 		client.expire(key, ttl);
 
 		log.info("Set cache: " + value);
 	}
 
+	@SneakyThrows
 	@Override
-	public String get(String key) {
-		String get = client.get(key);
+	public Object get(String key, Class<?> returnType) {
+		Object value = ObjectMapperUtil.getMapper().readValue(client.get(key), returnType);
 
-		log.info("Get Cache: " + get);
-		return get;
+		log.info("Get Cache: " + value);
+		return value;
+	}
+
+	@Override
+	public void del(String key) {
+		client.del(key);
+
+		log.info("Del Cache: " + key);
 	}
 
 	@Override
 	public boolean existsKey(String key) {
 		return client.exists(key);
 	}
-
 
 }
