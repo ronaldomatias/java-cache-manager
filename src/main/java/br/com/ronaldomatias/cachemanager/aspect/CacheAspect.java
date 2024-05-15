@@ -20,8 +20,8 @@ public class CacheAspect {
 		manipulatorFactory = new ManipulatorFactory();
 	}
 
-	@Around("execution(* br.com.ronaldomatias.cachemanager.tester.service..*(..)))") // TODO: Como configurar isso dinamicamente ?
-	public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+	@Around("@annotation(br.com.ronaldomatias.cachemanager.annotation.Cacheable)")
+	public Object pointCut(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
 
 		Annotation annotation = Arrays.stream(methodSignature.getMethod().getAnnotations()).filter(a -> BaseManipulator.allAnnotations.contains(a.annotationType())).findFirst().orElse(null);
