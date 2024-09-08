@@ -1,4 +1,4 @@
-package br.com.ronaldomatias.cachemanager.cachemanager.manipulator;
+package br.com.ronaldomatias.cachemanager.cachemanager.manipulator.component;
 
 import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisDTO;
 import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisOperations;
@@ -14,6 +14,6 @@ public abstract class BaseManipulator {
 		this.redisOperations = new RedisOperations();
 	}
 	
-	protected abstract Object run(RedisDTO redisDTO, ProceedingJoinPoint proceedingJoinPoint, Class<?> returnType) throws Throwable;
+	public abstract Object run(RedisDTO redisDTO, ProceedingJoinPoint proceedingJoinPoint, Class<?> returnType) throws Throwable;
 
 }

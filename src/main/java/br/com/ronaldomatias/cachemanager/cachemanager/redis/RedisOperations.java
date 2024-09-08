@@ -20,6 +20,7 @@ public class RedisOperations implements RedisOperationsInterface {
 	public void set(String key, Object value, Long ttl) {
 		client.set(key, ObjectMapperUtil.getMapper().writeValueAsString(value));
 		client.expire(key, ttl);
+		client.close();
 
 		log.info("Set cache: " + value);
 	}
@@ -28,6 +29,7 @@ public class RedisOperations implements RedisOperationsInterface {
 	@Override
 	public Object get(String key, Class<?> returnType) {
 		Object value = ObjectMapperUtil.getMapper().readValue(client.get(key), returnType);
+		client.close();
 
 		log.info("Get Cache: " + value);
 		return value;
@@ -36,13 +38,17 @@ public class RedisOperations implements RedisOperationsInterface {
 	@Override
 	public void del(String key) {
 		client.del(key);
+		client.close();
 
 		log.info("Del Cache: " + key);
 	}
 
 	@Override
 	public boolean existsKey(String key) {
-		return client.exists(key);
+		boolean exists = client.exists(key);
+		client.close();
+
+		return exists;
 	}
 
 }

@@ -1,2 +1,6 @@
 INVALIDATE:
 1. Pode invalidar mais de uma key por vez.
+
+
+INFRA-ESTRUTURA:
+1. Verificar se a instânciação do JedinsSingleton não deixe a conexão aberta desnecessariamente.

@@ -7,7 +7,9 @@ import java.lang.annotation.Annotation;
 
 @Data
 public class RedisDTO {
+
 	private String key;
+
 	private Long ttl;
 
 	public RedisDTO(Annotation annotation) {

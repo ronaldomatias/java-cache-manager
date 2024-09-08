@@ -30,7 +30,7 @@ public class CacheAspect {
 			return proceedingJoinPoint.proceed();
 		}
 
-		return manipulatorFactory.runManipulator(new RedisDTO(annotation.get()), proceedingJoinPoint, annotation.get().annotationType(), methodSignature.getReturnType());
+		return manipulatorFactory.run(new RedisDTO(annotation.get()), proceedingJoinPoint, annotation.get().annotationType(), methodSignature.getReturnType());
 	}
 
 }

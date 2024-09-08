@@ -2,6 +2,7 @@ package br.com.ronaldomatias.cachemanager.cachemanager.manipulator;
 
 import br.com.ronaldomatias.cachemanager.annotation.Cacheable;
 import br.com.ronaldomatias.cachemanager.annotation.InvalidateCache;
+import br.com.ronaldomatias.cachemanager.cachemanager.manipulator.component.BaseManipulator;
 import br.com.ronaldomatias.cachemanager.cachemanager.manipulator.component.CacheableManipulator;
 import br.com.ronaldomatias.cachemanager.cachemanager.manipulator.component.InvalidateManipulator;
 import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisDTO;
@@ -15,7 +16,7 @@ public class ManipulatorFactory {
 
 	private static final Map<Class<? extends Annotation>, BaseManipulator> components;
 
-	public Object runManipulator(RedisDTO redisDTO, ProceedingJoinPoint proceedingJoinPoint, Class<? extends Annotation> annotation, Class<?> returnType) throws Throwable {
+	public Object run(RedisDTO redisDTO, ProceedingJoinPoint proceedingJoinPoint, Class<? extends Annotation> annotation, Class<?> returnType) throws Throwable {
 		return components.get(annotation).run(redisDTO, proceedingJoinPoint, returnType);
 	}
 
