@@ -1,7 +1,7 @@
-package br.com.ronaldomatias.cachemanager.cachemanager.manipulator.component;
+package br.com.ronaldomatias.cachemanager.manipulator;
 
-import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisDTO;
-import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisOperations;
+import br.com.ronaldomatias.cachemanager.redis.RedisDTO;
+import br.com.ronaldomatias.cachemanager.redis.RedisOperations;
 import lombok.Data;
 import org.aspectj.lang.ProceedingJoinPoint;
 

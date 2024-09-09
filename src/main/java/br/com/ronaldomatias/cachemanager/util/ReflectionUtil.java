@@ -10,6 +10,7 @@ public class ReflectionUtil {
 			Method getMethod = object.getClass().getMethod(methodName);
 			return getMethod.invoke(object);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			// TODO: Retornar feedback na exception.
 			return null;
 		}
 	}

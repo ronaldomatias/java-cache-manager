@@ -1,9 +1,8 @@
 package br.com.ronaldomatias.cachemanager.aspect;
 
-import br.com.ronaldomatias.cachemanager.cachemanager.manipulator.ManipulatorFactory;
-import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisDTO;
+import br.com.ronaldomatias.cachemanager.manipulator.ManipulatorFactory;
+import br.com.ronaldomatias.cachemanager.redis.RedisDTO;
 import br.com.ronaldomatias.cachemanager.util.ReflectionUtil;
-import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -12,7 +11,6 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Optional;
 
-@Log4j2
 @org.aspectj.lang.annotation.Aspect
 public class CacheAspect {
 	private final ManipulatorFactory manipulatorFactory;

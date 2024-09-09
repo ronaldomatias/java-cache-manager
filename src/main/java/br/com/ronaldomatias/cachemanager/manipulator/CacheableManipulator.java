@@ -1,6 +1,6 @@
-package br.com.ronaldomatias.cachemanager.cachemanager.manipulator.component;
+package br.com.ronaldomatias.cachemanager.manipulator;
 
-import br.com.ronaldomatias.cachemanager.cachemanager.redis.RedisDTO;
+import br.com.ronaldomatias.cachemanager.redis.RedisDTO;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 public class CacheableManipulator extends BaseManipulator {

@@ -1,3 +1,10 @@
-1. A Classe CacheAspect precisa, obrigatoriamente, ser definido como um Bean da aplicação;
+REDIS:
+1. É suportado apenas uma instância do servidor redis;
 
-2. O método anotado precisa, obrigatoriamente, fazer parte de uma Classe (Bean) gerenciada pelo Spring Boot;
+
+CONFIGURAÇÕES:
+1. A classe CacheAspect precisa ser definida como um Bean;
+
+
+REGRAS:
+1. O método anotado precisa, obrigatoriamente, fazer parte de uma Classe (Bean) gerenciada pelo Spring Boot;

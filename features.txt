@@ -1,6 +1,14 @@
 INVALIDATE:
-1. Pode invalidar mais de uma key por vez.
+1. Implementar a invalidação de mais de uma key por vez.
+
+
+
+SET-CACHE:
+1. Criar chave-dinâmica a partir dos valores dos parâmetros;
+
 
 
 INFRA-ESTRUTURA:
-1. Verificar se a instânciação do JedinsSingleton não deixe a conexão aberta desnecessariamente.
+1. Garantir que a instânciação do JedinsSingleton não deixa a conexão aberta desnecessariamente;
+2. Gerenciar a memória do servidor redis, para não ter overload;
+3. Possibilitar configuração de um ObjectMapper proprio;
