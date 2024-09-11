@@ -2,7 +2,8 @@ package br.com.ronaldomatias.cachemanager.manipulator;
 
 import br.com.ronaldomatias.cachemanager.annotation.Cacheable;
 import br.com.ronaldomatias.cachemanager.annotation.InvalidateCache;
-import br.com.ronaldomatias.cachemanager.redis.RedisDTO;
+import br.com.ronaldomatias.cachemanager.exception.CacheManagerException;
+import br.com.ronaldomatias.cachemanager.annotation.AnnotationDTO;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import java.lang.annotation.Annotation;
@@ -13,12 +14,12 @@ public class ManipulatorFactory {
 
 	private final static Map<Class<? extends Annotation>, BaseManipulator> components;
 
-	public Object run(RedisDTO redisDTO, ProceedingJoinPoint proceedingJoinPoint, Class<? extends Annotation> annotation, Class<?> returnType) throws Throwable {
+	public Object run(AnnotationDTO annotationDTO, ProceedingJoinPoint proceedingJoinPoint, Class<? extends Annotation> annotation, Class<?> returnType) throws Throwable {
 		BaseManipulator manipulator = components.get(annotation);
 
-		if (manipulator == null) throw new IllegalArgumentException("No manipulator found for annotation: " + annotation);
+		if (manipulator == null) throw new CacheManagerException("No manipulator found for annotation: " + annotation, null);
 
-		return manipulator.run(redisDTO, proceedingJoinPoint, returnType);
+		return manipulator.run(annotationDTO, proceedingJoinPoint, returnType);
 	}
 
 	static {

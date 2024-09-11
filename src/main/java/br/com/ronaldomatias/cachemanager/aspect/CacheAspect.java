@@ -1,7 +1,7 @@
 package br.com.ronaldomatias.cachemanager.aspect;
 
 import br.com.ronaldomatias.cachemanager.manipulator.ManipulatorFactory;
-import br.com.ronaldomatias.cachemanager.redis.RedisDTO;
+import br.com.ronaldomatias.cachemanager.annotation.AnnotationDTO;
 import br.com.ronaldomatias.cachemanager.util.ReflectionUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -23,12 +23,13 @@ public class CacheAspect {
 	public Object pointCut(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
 
+		// TODO: Melhorar essa referencia com base na key. Pode ter conflito com outras anotacoes.
 		Optional<Annotation> annotation = Arrays.stream(methodSignature.getMethod().getAnnotations()).filter(a -> ReflectionUtil.getAnnotationValue("key", a) != null).findFirst();
 		if (annotation.isEmpty()) {
 			return proceedingJoinPoint.proceed();
 		}
 
-		return manipulatorFactory.run(new RedisDTO(annotation.get()), proceedingJoinPoint, annotation.get().annotationType(), methodSignature.getReturnType());
+		return manipulatorFactory.run(new AnnotationDTO(annotation.get()), proceedingJoinPoint, annotation.get().annotationType(), methodSignature.getReturnType());
 	}
 
 }
