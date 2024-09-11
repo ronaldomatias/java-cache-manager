@@ -1,4 +1,4 @@
-package br.com.ronaldomatias.cachemanager.manipulator;
+package br.com.ronaldomatias.cachemanager.aspect.joinpointprocessor;
 
 import br.com.ronaldomatias.cachemanager.annotation.AnnotationDTO;
 import br.com.ronaldomatias.cachemanager.redis.RedisOperations;
@@ -6,11 +6,11 @@ import lombok.Data;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 @Data
-public abstract class BaseManipulator {
+public abstract class BaseJoinPointProcessor {
 
 	private final RedisOperations redisOperations;
 
-	public BaseManipulator() {
+	public BaseJoinPointProcessor() {
 		this.redisOperations = new RedisOperations();
 	}
 	

@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface InvalidateCache {
 	String key();
-	String condition() default "";
+	boolean invalidateOnError() default false;
 
 }
