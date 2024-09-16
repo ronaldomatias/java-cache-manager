@@ -8,3 +8,4 @@ CONFIGURAÇÕES:
 
 REGRAS:
 1. O método anotado precisa, obrigatoriamente, fazer parte de uma Classe (Bean) gerenciada pelo Spring Boot;
+2. A dynamicKey precisa ser construída com atributos primitivos.

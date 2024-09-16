@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface InvalidateCache {
-	String key();
+	String key() default "";
+	String dynamicKey() default "";
 	boolean invalidateOnError() default false;
 
 }

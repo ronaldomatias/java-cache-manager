@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Cacheable {
-	String key();
+	String key() default "";
+	String dynamicKey() default "";
 	long ttl();
 	String condition() default "";
 

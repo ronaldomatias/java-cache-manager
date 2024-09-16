@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 public class ReflectionUtil {
 
-	public static Object getAnnotationValue(String methodName, Object object) {
+	public static Object getAnnotationFieldValue(String methodName, Object object) {
 		try {
 			Method getMethod = object.getClass().getMethod(methodName);
 			return getMethod.invoke(object);

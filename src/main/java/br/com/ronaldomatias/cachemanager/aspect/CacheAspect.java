@@ -3,7 +3,6 @@ package br.com.ronaldomatias.cachemanager.aspect;
 import br.com.ronaldomatias.cachemanager.annotation.Cacheable;
 import br.com.ronaldomatias.cachemanager.annotation.InvalidateCache;
 import br.com.ronaldomatias.cachemanager.exception.CacheManagerException;
-import br.com.ronaldomatias.cachemanager.aspect.joinpointprocessor.JoinPointProcessorFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -32,6 +31,7 @@ public class CacheAspect {
 		return joinPointProcessorFactory.run(
 				annotationOpt.get(),
 				proceedingJoinPoint,
+				methodSignature,
 				Cacheable.class,
 				methodSignature.getReturnType());
 	}
@@ -48,6 +48,7 @@ public class CacheAspect {
 		return joinPointProcessorFactory.run(
 				annotation.get(),
 				proceedingJoinPoint,
+				methodSignature,
 				InvalidateCache.class,
 				methodSignature.getReturnType());
 	}
