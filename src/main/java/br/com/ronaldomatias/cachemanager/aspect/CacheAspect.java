@@ -42,7 +42,7 @@ public class CacheAspect {
 
 		Optional<Annotation> annotation = Arrays.stream(methodSignature.getMethod().getAnnotations()).filter(a -> a.annotationType().equals(InvalidateCache.class)).findFirst();
 		if (annotation.isEmpty()) {
-			throw new CacheManagerException("Method intercepted by invalidateCache pointCut but not present on method scope.", null);
+			throw new CacheManagerException("Method intercepted by InvalidateCache pointCut but not present on method scope.", null);
 		}
 
 		return joinPointProcessorFactory.run(

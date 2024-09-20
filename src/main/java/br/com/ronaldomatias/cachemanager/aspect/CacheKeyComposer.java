@@ -9,52 +9,59 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CacheKeyComposer {
 
 	public static String compose(Annotation annotation, MethodSignature methodSignature, ProceedingJoinPoint proceedingJoinPoint) {
 		// TODO: Definir um limite para o tamanho de caracteres da chave.
-		// Se possui key estatica, a retorna.
-		Object key = ReflectionUtil.getAnnotationFieldValue("key", annotation);
-		if (!StringUtils.isEmpty(key)) {
-			return key.toString();
-		}
-
-		return composeDynamicKey(annotation, methodSignature, proceedingJoinPoint);
-	}
-
-	private static String composeDynamicKey(Annotation annotation, MethodSignature methodSignature, ProceedingJoinPoint proceedingJoinPoint) {
 		// TODO: Usuario pode definir um separador de parametros. Atualmente eh o underline.
-		// Se nao tem key fixa e nem dinamica, retorna erro.
-		Object dynamicKey = ReflectionUtil.getAnnotationFieldValue("dynamicKey", annotation);
-		if (StringUtils.isEmpty(dynamicKey)) {
+
+		// Se key eh null ou vazio, retorna erro.
+		Object key = ReflectionUtil.getAnnotationFieldValue("key", annotation);
+		if (StringUtils.isEmpty(key)) {
 			throw new CacheManagerException("Não foi encontrada nenhuma chave associada à anotação: " + annotation.annotationType(), null);
 		}
 
 		// Pega os valores dos parametros selecionados e monta a key.
 		List<String> methodParams = Arrays.stream(methodSignature.getParameterNames()).toList();
-		List<String> dynamicKeyParams = Arrays.stream(dynamicKey.toString().split(";")).map(String::trim).toList();
-		String key = dynamicKeyParams.stream()
+		List<String> keyParams = Arrays.stream(key.toString().split(";")).map(String::trim).toList();
+		String result = keyParams.stream()
 				.map(param -> {
 					if (param.startsWith("#")) {
 						// Retorna parametro dinamico.
-						String nameFromDynamicParam = param.substring(1).trim();
-						int indexFromDynamicParam = methodParams.indexOf(nameFromDynamicParam);
+						param = param.substring(1).trim();
 
-						return indexFromDynamicParam != -1 ? Objects.toString(proceedingJoinPoint.getArgs()[indexFromDynamicParam], "") : "";
+						if (isSingleParam(param)) {
+							int indexOfParam = methodParams.indexOf(param);
+							return indexOfParam == -1 ? "" : proceedingJoinPoint.getArgs()[indexOfParam].toString();
+						}
+
+						int indexOfParam = methodParams.indexOf(param.split("\\.")[0]);
+						if (indexOfParam == -1) {
+							return "";
+						}
+
+						return ReflectionUtil.getParamValueAsString(proceedingJoinPoint.getArgs()[indexOfParam], param.split("\\."));
 					} else {
 						// Retorna parametro estatico.
 						return param;
 					}
-				}).collect(Collectors.joining("_"));
+				})
+				.filter(p -> !StringUtils.isEmpty(p))
+				.map(Object::toString)
+				.collect(Collectors.joining("_"));
 
-		if (StringUtils.isEmpty(key)) {
+		if (StringUtils.isEmpty(result)) {
 			throw new CacheManagerException("Não foi encontrada nenhuma chave associada à anotação: " + annotation.annotationType(), null);
 		}
 
-		return key;
+		return result;
+	}
+
+	private static Boolean isSingleParam(String param) {
+		// SingleParam -> parametro que nao necessita de acesso a algum atributo do Objeto.
+		return param.split("\\.").length == 1;
 	}
 
 }
