@@ -1,0 +1,16 @@
+INFRA-ESTRUTURA
+
+Redis:
+1. É suportado apenas uma instância do servidor redis;
+
+
+INSTALAÇÃO
+1. Deve-se adicionar a dependência no pom;
+1. Deve-se configurar a Classe CacheAspect como um Bean do Spring;
+2. Deve-se anotar a Classe de configuração do projeto com @ComponentScan(basePackages = "br.com.ronaldomatias.cachemanager");
+
+
+REQUISITOS-FUNCIONAIS:
+1. O método anotado deve ser um Bean gerenciado pelo Spring;
+2. A chave-dinâmica deve ser construída com dados primitivos ou Objetos;
+3. O tamanho da chave (dinãmica ou estática) deve ter no máximo X caracteres.
