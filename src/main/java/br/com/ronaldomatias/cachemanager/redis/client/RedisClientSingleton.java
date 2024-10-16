@@ -13,8 +13,8 @@ public class RedisClientSingleton {
 		if (jedis == null) {
 			synchronized (RedisClientSingleton.class) {
 				if (jedis == null) {
-					final String host = ApplicationPropertiesUtil.getProperty("cachemanager.redis.host");
-					final int port = Integer.parseInt(ApplicationPropertiesUtil.getProperty("cachemanager.redis.port"));
+					final String host = ApplicationPropertiesUtil.getPropertyValue("cache-manager.redis.host");
+					final int port = Integer.parseInt(ApplicationPropertiesUtil.getPropertyValue("cache-manager.redis.port"));
 
 					jedis = new Jedis(host, port);
 				}

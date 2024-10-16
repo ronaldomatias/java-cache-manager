@@ -14,9 +14,6 @@ import java.util.stream.Collectors;
 public class CacheKeyComposer {
 
 	public static String compose(Annotation annotation, MethodSignature methodSignature, ProceedingJoinPoint proceedingJoinPoint) {
-		// TODO: Definir um limite para o tamanho de caracteres da chave.
-		// TODO: Usuario pode definir um separador de parametros. Atualmente eh o underline.
-
 		// Se key eh null ou vazio, retorna erro.
 		Object key = ReflectionUtil.getAnnotationFieldValue("key", annotation);
 		if (StringUtils.isEmpty(key)) {
