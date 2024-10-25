@@ -8,17 +8,14 @@ public class RedisCacheManager {
 	// TODO: Avaliar criar um singleton dessa classe;
 	private final LruAlgorithm lruAlgorithm;
 
-	private final Jedis redisClient;
-
-	public RedisCacheManager(Jedis redisClient) {
+	public RedisCacheManager() {
 		this.lruAlgorithm  = new LruAlgorithm();
-		this.redisClient = redisClient;
 	}
 
-	public void executeCleaningStrategy(Object value) {
+	public void executeCleaningStrategy(Object value, Jedis redisClient) {
 		if (!valueReachesMemoryLimit(value, redisClient)) return;
 
-		lruAlgorithm.executeCleaningStrategy(value, this.redisClient);
+		lruAlgorithm.executeCleaningStrategy(value, redisClient);
 	}
 
 	protected static boolean valueReachesMemoryLimit(Object value, Jedis redisClient) {

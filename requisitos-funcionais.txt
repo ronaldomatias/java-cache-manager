@@ -2,7 +2,7 @@ INFRA-ESTRUTURA
 
 Redis:
 1. É suportado apenas uma instância do servidor redis;
-
+2. É suportado apenas um banco de dados na instância do redis;
 
 INSTALAÇÃO
 1. Deve-se adicionar a dependência no pom;

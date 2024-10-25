@@ -28,7 +28,7 @@ public class JoinPointProcessorFactory {
 	public Object run(Annotation annotation, ProceedingJoinPoint proceedingJoinPoint, MethodSignature methodSignature, Class<? extends Annotation> componentKey, Class<?> returnType) throws Throwable {
 		BaseJoinPointProcessor joinPointProcessor = processors.get(componentKey);
 		if (joinPointProcessor == null) {
-			throw new CacheManagerException("No manipulator found for annotation: " + componentKey, null);
+			throw new CacheManagerException("No handler found for annotation: " + componentKey, null);
 		}
 
 		return joinPointProcessor.run(this.createAnnotationDTO(annotation, proceedingJoinPoint, methodSignature), proceedingJoinPoint, returnType);
