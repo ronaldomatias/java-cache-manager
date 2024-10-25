@@ -1,7 +1,7 @@
 package br.com.ronaldomatias.cachemanager.aspect;
 
 import br.com.ronaldomatias.cachemanager.exception.CacheManagerException;
-import br.com.ronaldomatias.cachemanager.util.ReflectionUtil;
+import br.com.ronaldomatias.cachemanager.util.ReflectionUtils;
 import br.com.ronaldomatias.cachemanager.util.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -15,7 +15,7 @@ public class CacheKeyComposer {
 
 	public static String compose(Annotation annotation, MethodSignature methodSignature, ProceedingJoinPoint proceedingJoinPoint) {
 		// Se key eh null ou vazio, retorna erro.
-		Object key = ReflectionUtil.getAnnotationFieldValue("key", annotation);
+		Object key = ReflectionUtils.getAnnotationFieldValue("key", annotation);
 		if (StringUtils.isEmpty(key)) {
 			throw new CacheManagerException("Não foi encontrada nenhuma chave associada à anotação: " + annotation.annotationType(), null);
 		}
@@ -39,7 +39,7 @@ public class CacheKeyComposer {
 							return "";
 						}
 
-						return ReflectionUtil.getParamValueAsString(proceedingJoinPoint.getArgs()[indexOfParam], param.split("\\."));
+						return ReflectionUtils.getParamValueAsString(proceedingJoinPoint.getArgs()[indexOfParam], param.split("\\."));
 					} else {
 						// Retorna parametro estatico.
 						return param;

@@ -12,11 +12,11 @@ public class InvalidateCacheJoinPointProcessor extends BaseJoinPointProcessor {
 		// TODO: Essa logica de exception pode ir para o afterThowing ao inves de ficar no around.
 		try {
 			Object proceedResult = proceedingJoinPoint.proceed();
-			super.getRedisOperations().del(annotationDTO.getKey());
+			super.getRedisHandler().del(annotationDTO.getKey());
 			return proceedResult;
 		} catch (Throwable ex) {
 			if (annotationDTO.getInvalidateOnError()) {
-				super.getRedisOperations().del(annotationDTO.getKey());
+				super.getRedisHandler().del(annotationDTO.getKey());
 			}
 			throw ex;
 		}

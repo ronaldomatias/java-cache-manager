@@ -7,7 +7,7 @@ import br.com.ronaldomatias.cachemanager.aspect.joinpointprocessor.CacheableJoin
 import br.com.ronaldomatias.cachemanager.aspect.joinpointprocessor.InvalidateCacheJoinPointProcessor;
 import br.com.ronaldomatias.cachemanager.exception.CacheManagerException;
 import br.com.ronaldomatias.cachemanager.annotation.AnnotationDTO;
-import br.com.ronaldomatias.cachemanager.util.ReflectionUtil;
+import br.com.ronaldomatias.cachemanager.util.ReflectionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
@@ -17,16 +17,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class JoinPointProcessorFactory {
 
-	private final static Map<Class<? extends Annotation>, BaseJoinPointProcessor> components;
+	private final static Map<Class<? extends Annotation>, BaseJoinPointProcessor> processors;
 
 	static {
-		components = new ConcurrentHashMap<>();
-		components.put(Cacheable.class, new CacheableJoinPointProcessor());
-		components.put(InvalidateCache.class, new InvalidateCacheJoinPointProcessor());
+		processors = new ConcurrentHashMap<>();
+		processors.put(Cacheable.class, new CacheableJoinPointProcessor());
+		processors.put(InvalidateCache.class, new InvalidateCacheJoinPointProcessor());
 	}
 
 	public Object run(Annotation annotation, ProceedingJoinPoint proceedingJoinPoint, MethodSignature methodSignature, Class<? extends Annotation> componentKey, Class<?> returnType) throws Throwable {
-		BaseJoinPointProcessor joinPointProcessor = components.get(componentKey);
+		BaseJoinPointProcessor joinPointProcessor = processors.get(componentKey);
 		if (joinPointProcessor == null) {
 			throw new CacheManagerException("No manipulator found for annotation: " + componentKey, null);
 		}
@@ -37,8 +37,8 @@ public class JoinPointProcessorFactory {
 	private AnnotationDTO createAnnotationDTO(Annotation annotation, ProceedingJoinPoint proceedingJoinPoint, MethodSignature methodSignature) {
 		return new AnnotationDTO(
 				CacheKeyComposer.compose(annotation, methodSignature, proceedingJoinPoint),
-				(Long) ReflectionUtil.getAnnotationFieldValue("ttl", annotation),
-				(Boolean) ReflectionUtil.getAnnotationFieldValue("invalidateOnError", annotation)
+				(Long) ReflectionUtils.getAnnotationFieldValue("ttl", annotation),
+				(Boolean) ReflectionUtils.getAnnotationFieldValue("invalidateOnError", annotation)
 		);
 	}
 

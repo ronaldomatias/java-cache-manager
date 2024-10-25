@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class ReflectionUtil {
+public class ReflectionUtils {
 
 	public static Object getAnnotationFieldValue(String methodName, Object object) {
 		try {

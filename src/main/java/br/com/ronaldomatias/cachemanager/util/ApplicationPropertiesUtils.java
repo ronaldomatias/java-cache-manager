@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class ApplicationPropertiesUtil {
+public class ApplicationPropertiesUtils {
 
 	private static final Properties properties = new Properties();
 
 	static {
-		try (InputStream input = ApplicationPropertiesUtil.class.getClassLoader().getResourceAsStream("cache-manager.properties")) {
+		try (InputStream input = ApplicationPropertiesUtils.class.getClassLoader().getResourceAsStream("cache-manager.properties")) {
 			if (input == null) {
 				throw new CacheManagerException("cache-manager.properties file not found.", null);
 			}

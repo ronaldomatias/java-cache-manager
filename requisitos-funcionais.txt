@@ -14,3 +14,4 @@ REQUISITOS-FUNCIONAIS:
 1. O método anotado deve ser um Bean gerenciado pelo Spring;
 2. A chave-dinâmica deve ser construída com dados primitivos ou Objetos;
 3. O tamanho da chave (dinãmica ou estática) deve ter no máximo X caracteres.
+4. A invalidação de cache pode ser pontual ou completa, basta definir os parametros da anotação. -> implementar

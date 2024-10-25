@@ -3,7 +3,7 @@ package br.com.ronaldomatias.cachemanager.util;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ObjectMapperUtil {
+public class ObjectMapperUtils {
 	private static ObjectMapper objectMapper;
 
 	public static ObjectMapper getMapper() {
