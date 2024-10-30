@@ -14,17 +14,19 @@ public class RedisClientInitializer {
 		final int port = Integer.parseInt(ApplicationPropertiesUtils.getPropertyValue("cache-manager.redis.port"));
 
 		JedisPoolConfig poolConfig = new JedisPoolConfig();
-		poolConfig.setMaxTotal(10); // Maximo total de conexoes.
-		poolConfig.setMaxIdle(5);   // Maximo de conexoes ociosas.
-		poolConfig.setMinIdle(2);   // Minimo de conexoes ociosas.
+		poolConfig.setMaxTotal(2); // Maximo total de conexoes.
+		poolConfig.setMaxIdle(2);   // Maximo de conexoes ociosas.
+		poolConfig.setMinIdle(1);   // Minimo de conexoes ociosas.
 
 		jedisPool = new JedisPool(poolConfig, host, port);
 
 		// Inicia a thread de subscribe
-		startExpiredKeysSubscriber();
+		startSubscriberExpiredKeys();
 	}
 
-	private static void startExpiredKeysSubscriber() {
+	private static void startSubscriberExpiredKeys() {
+		// Inicia um subscriber para ouvir o evento de expiração automatica das chaves.
+		// Quando uma chave eh expirada, entao eh obrigatorio remove-la do Set 'lastRecentUsedKeys'.
 		new Thread(() -> {
 			try (Jedis jedisInstance = jedisPool.getResource()) {
 				jedisInstance.psubscribe(new JedisPubSub() {
@@ -36,7 +38,7 @@ public class RedisClientInitializer {
 							e.printStackTrace();
 						}
 					}
-				}, "__keyevent@0__:expired"); // Assinando o evento de expiração
+				}, "__keyevent@0__:expired");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -46,4 +48,5 @@ public class RedisClientInitializer {
 	public static Jedis getClient() {
 		return jedisPool.getResource();
 	}
+
 }

@@ -1,10 +1,7 @@
-package br.com.ronaldomatias.cachemanager.aspect;
+package br.com.ronaldomatias.cachemanager.aspect.joinpointprocessor;
 
 import br.com.ronaldomatias.cachemanager.annotation.Cacheable;
 import br.com.ronaldomatias.cachemanager.annotation.InvalidateCache;
-import br.com.ronaldomatias.cachemanager.aspect.joinpointprocessor.BaseJoinPointProcessor;
-import br.com.ronaldomatias.cachemanager.aspect.joinpointprocessor.CacheableJoinPointProcessor;
-import br.com.ronaldomatias.cachemanager.aspect.joinpointprocessor.InvalidateCacheJoinPointProcessor;
 import br.com.ronaldomatias.cachemanager.exception.CacheManagerException;
 import br.com.ronaldomatias.cachemanager.annotation.AnnotationDTO;
 import br.com.ronaldomatias.cachemanager.util.ReflectionUtils;
@@ -31,15 +28,14 @@ public class JoinPointProcessorFactory {
 			throw new CacheManagerException("No handler found for annotation: " + componentKey, null);
 		}
 
-		return joinPointProcessor.run(this.createAnnotationDTO(annotation, proceedingJoinPoint, methodSignature), proceedingJoinPoint, returnType);
-	}
-
-	private AnnotationDTO createAnnotationDTO(Annotation annotation, ProceedingJoinPoint proceedingJoinPoint, MethodSignature methodSignature) {
-		return new AnnotationDTO(
-				CacheKeyComposer.compose(annotation, methodSignature, proceedingJoinPoint),
-				(Long) ReflectionUtils.getAnnotationFieldValue("ttl", annotation),
-				(Boolean) ReflectionUtils.getAnnotationFieldValue("invalidateOnError", annotation)
-		);
+		return joinPointProcessor.run(
+				new AnnotationDTO(
+						joinPointProcessor.composeKey(annotation, methodSignature, proceedingJoinPoint),
+						(Long) ReflectionUtils.getAnnotationFieldValue("ttl", annotation),
+						(Boolean) ReflectionUtils.getAnnotationFieldValue("invalidateOnError", annotation)
+				),
+				proceedingJoinPoint,
+				returnType);
 	}
 
 }

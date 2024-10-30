@@ -2,6 +2,7 @@ package br.com.ronaldomatias.cachemanager.aspect;
 
 import br.com.ronaldomatias.cachemanager.annotation.Cacheable;
 import br.com.ronaldomatias.cachemanager.annotation.InvalidateCache;
+import br.com.ronaldomatias.cachemanager.aspect.joinpointprocessor.JoinPointProcessorFactory;
 import br.com.ronaldomatias.cachemanager.exception.CacheManagerException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
