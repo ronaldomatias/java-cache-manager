@@ -29,7 +29,7 @@ public abstract class BaseJoinPointProcessor {
 		// Se key eh null ou vazio, retorna erro.
 		Object key = ReflectionUtils.getAnnotationFieldValue("key", annotation);
 		if (StringUtils.isEmpty(key)) {
-			throw new CacheManagerException("Não foi encontrada nenhuma chave associada à anotação: " + annotation.annotationType(), null);
+			throw new CacheManagerException("Não foi encontrada nenhuma chave associada à anotação: " + annotation.annotationType());
 		}
 
 		// Pega os valores dos parametros do metodo e monta a key.
@@ -62,7 +62,7 @@ public abstract class BaseJoinPointProcessor {
 				.collect(Collectors.joining("_"));
 
 		if (StringUtils.isEmpty(result)) {
-			throw new CacheManagerException("Não foi encontrada nenhuma chave associada à anotação: " + annotation.annotationType(), null);
+			throw new CacheManagerException("Não foi encontrada nenhuma chave associada à anotação: " + annotation.annotationType());
 		}
 
 		return result;

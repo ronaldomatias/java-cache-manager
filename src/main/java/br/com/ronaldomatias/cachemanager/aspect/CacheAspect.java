@@ -26,7 +26,7 @@ public class CacheAspect {
 
 		Optional<Annotation> annotationOpt = Arrays.stream(methodSignature.getMethod().getAnnotations()).filter(a -> a.annotationType().equals(Cacheable.class)).findFirst();
 		if (annotationOpt.isEmpty()) {
-			throw new CacheManagerException("Method intercepted by Cacheable pointCut but not present on method scope.", null);
+			throw new CacheManagerException("Method intercepted by Cacheable pointCut but not present on method scope.");
 		}
 
 		return joinPointProcessorFactory.run(
@@ -43,7 +43,7 @@ public class CacheAspect {
 
 		Optional<Annotation> annotation = Arrays.stream(methodSignature.getMethod().getAnnotations()).filter(a -> a.annotationType().equals(InvalidateCache.class)).findFirst();
 		if (annotation.isEmpty()) {
-			throw new CacheManagerException("Method intercepted by InvalidateCache pointCut but not present on method scope.", null);
+			throw new CacheManagerException("Method intercepted by InvalidateCache pointCut but not present on method scope.");
 		}
 
 		return joinPointProcessorFactory.run(
