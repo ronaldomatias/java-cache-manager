@@ -1,5 +1,6 @@
 package br.com.ronaldomatias.cachemanager.redis.client;
 
+import br.com.ronaldomatias.cachemanager.exception.CacheManagerException;
 import br.com.ronaldomatias.cachemanager.util.ApplicationPropertiesUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -40,7 +41,7 @@ public class RedisClientInitializer {
 					}
 				}, "__keyevent@0__:expired");
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new CacheManagerException("Não foi possível estabelecer conexão com o Subscriber - Expired Keys." , e.getCause());
 			}
 		}).start();
 	}

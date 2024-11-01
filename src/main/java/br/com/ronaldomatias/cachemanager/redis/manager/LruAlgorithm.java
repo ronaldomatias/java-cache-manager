@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LruAlgorithm {
 
-	public void executeCleaningStrategy(Object value, Jedis redisClient) {
+	protected void executeCleaningStrategy(Object value, Jedis redisClient) {
 		// Pega a key com menos frequencia de uso.
 		List<String> lastRecentUsedKeys = redisClient.zrange("lastRecentUsedKeys", 0, 1);
 		if (CollectionUtils.isEmpty(lastRecentUsedKeys)) {
