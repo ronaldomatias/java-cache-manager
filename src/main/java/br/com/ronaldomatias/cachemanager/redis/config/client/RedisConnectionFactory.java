@@ -1,4 +1,4 @@
-package br.com.ronaldomatias.cachemanager.redis.client;
+package br.com.ronaldomatias.cachemanager.redis.config.client;
 
 import br.com.ronaldomatias.cachemanager.exception.CacheManagerException;
 import redis.clients.jedis.Jedis;
@@ -19,7 +19,7 @@ public class RedisConnectionFactory {
 		JedisPoolConfig poolConfig = new JedisPoolConfig();
 		poolConfig.setMaxTotal(2); // Maximo total de conexoes.
 		poolConfig.setMaxIdle(2);  // Maximo de conexoes ociosas.
-		poolConfig.setMinIdle(1);  // Minimo de conexoes ociosas.
+		poolConfig.setMinIdle(0);  // Minimo de conexoes ociosas.
 
 		instance = new RedisConnectionFactory(new JedisPool(poolConfig, host, port));
 	}
