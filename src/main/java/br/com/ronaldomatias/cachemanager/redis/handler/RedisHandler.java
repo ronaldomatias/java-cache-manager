@@ -16,7 +16,7 @@ public class RedisHandler {
 	}
 
 	public void set(String key, Object value, Long ttl) {
-		try (Jedis redisClient = RedisConnectionFactory.getInstance().getConnection()) {
+		try (Jedis redisClient = RedisConnectionFactory.getConnection()) {
 			redisClient.set(key, ObjectMapperUtils.getMapper().writeValueAsString(value));
 			redisClient.expire(key, ttl);
 
